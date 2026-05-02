@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# TensorBoard / training logs
+**/Logs/
+**/events.out.tfevents.*
+
+# Model checkpoints
+**/CheckPoints/
+**/checkpoints/
+**/*.ckpt
+**/*.ckpt.*
+**/*.pt
+**/*.pth
+**/*.onnx
+**/*.pb
+
+# Generated outputs / inference artifacts
+**/Outputs/
+**/output/
+**/outputs/
+
+# Media artifacts generated during experiments
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Generated images and result dumps
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tif
+*.tiff
+*.npy
+*.npz
+
+# Archives / packaged data
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
+
+# MATLAB / misc temp files
+*.asv

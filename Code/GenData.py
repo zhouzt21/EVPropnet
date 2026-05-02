@@ -216,7 +216,7 @@ class PropGen(object):
 
         # TODO: Add affine transforms to props
         RandNumProps = np.random.randint(MinNumProps, MaxNumProps+1)
-        RandNumBlades = np.random.randint(2, MaxNumBlades+1, RandNumProps)
+        RandNumBlades = np.random.randint(4, MaxNumBlades+1, RandNumProps)
 
         RandPropSizes = np.random.randint(MinPropSizePx, MaxPropSizePx+1, RandNumProps)
         RandRPM = np.random.randint(MinRPM, MaxRPM+1, RandNumProps)
@@ -414,17 +414,17 @@ def GenerateData(Args):
 
     pg = PropGen(NumBlades = 4, ImageSize = [480, 480], RadiusPx = 200)
 
-    MaxNumProps = 12
+    MaxNumProps = 2
     MinNumProps = 1
-    MaxNumBlades = 5
+    MaxNumBlades = 10
     MaxPropOverlapRatio = 0.5 # Not Used!
-    MinPropSizePx = 40
-    MaxPropSizePx = 120
+    MinPropSizePx = 20
+    MaxPropSizePx = 60
     NoiseProb = 0.02
     MinRPM = 5000.
-    MaxRPM = 30000.
-    dT = 1e-4 # in secs
-    Tau = 80
+    MaxRPM = 10000.
+    dT = 1 # in secs
+    Tau = 20
     BgImgPath =  glob.glob(Args.BgImgPath + '*.' + Args.ImgFormat)
     MinPropColor = 0
     MaxPropColor = 255
