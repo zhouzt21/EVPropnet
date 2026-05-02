@@ -30,3 +30,67 @@ In this paper, we model the geometry of a propeller and use it to generate simul
 
 ## License:
 Copyright (c) 2021 Perception and Robotics Group (PRG).
+
+## 运行
+
+重新训练：
+1. 下载背景图片
+``` bash
+apt update
+sudo apt install aria2
+cd /hy-tmp/
+aria2c -x 16 -s 16 http://images.cocodataset.org/zips/train2014.zip
+unzip train2014.zip
+```
+
+2. 生成仿真无人机数据(1w张)
+``` bash
+git clone https://github.com/prgumd/EVPropNet.git
+pip install numpy matplotlib tqdm termcolor imutils scikit-image
+pip install opencv-python==3.4.18.65
+python GenData.py --BgImgPath /hy-tmp/train2014/ --NumImages 10000 --WritePath /hy-tmp/DVSProp/
+```
+
+3. 训练Train Code
+   
+``` bash 
+python Train.py --BasePath=/hy-tmp/DVSProp/ --NumEpochs=50 --MiniBatchSize=32 --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/ --LogsPath=/home/EVPropNet/DVSProp/Logs/ --LR=1e-4 --GPUDevice 0 --ImgFormat png
+```
+断点续训：
+
+``` bash
+python Train.py --BasePath=/hy-tmp/DVSProp/ --NumEpochs=50 --MiniBatchSize=32 --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/ --LogsPath=/home/EVPropNet/DVSProp/Logs/ --LR=1e-4 --GPUDevice 0 --ImgFormat png --LoadCheckPoint 1
+```
+
+4. 使用自己的测试集测试
+For Simulated Data :
+``` bash
+python Test.py --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/49model.ckpt --GPUDevice 0 --WritePath=/home/EVPropNet/DVSProp/Outputs/simulated_data/ --TestMode=M --Input=/hy-tmp/DVSPropTest/DVSPropTest/Imgs/ --ImgFormat=png
+```
+
+For Real Data:
+``` bash
+python Test.py --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/49model.ckpt --GPUDevice 0 --WritePath=/home/EVPropNet/DVSProp/Outputs/real_data/ --TestMode=M --Input=/hy-tmp/RealData/RealData/ --ImgFormat=png --ImgSize [640,480,1]
+```
+
+For our data:
+``` bash
+python Test.py --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/49model.ckpt --GPUDevice 0 --WritePath=/home/EVPropNet/DVSProp/Outputs/our_data/output_1113_100m/ --TestMode=M --Input=/hy-tmp/100000/output_1113_100m/ --ImgFormat=png --ImgSize [720,1280,1]
+```
+
+批量运行our data:
+``` bash
+ bash run_our_data.bash
+```
+
+1. 输出检测框
+修改测试代码为：Test1.py
+
+For Real Data:
+``` bash 
+python Test1.py --CheckPointPath=/home/EVPropNet/DVSProp/CheckPoints/49model.ckpt --GPUDevice 0 --WritePath=/home/EVPropNet/DVSProp/Outputs/real_data_rectangle/ --TestMode=M --Input=/hy-tmp/RealData/RealData/ --ImgFormat=png --ImgSize [640,480,1]
+```
+批量运行our data:
+``` bash
+ bash run_our_data_rectangle.bash
+```
