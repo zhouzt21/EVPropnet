@@ -2,6 +2,8 @@
 
 This note documents the local compatibility work and the model files retained for the event-camera experiments. RAW recordings, annotations, manifests, cached images, and checkpoint binaries remain external inputs and are not committed to this repository.
 
+The 2026-11-04 handoff's package-time file inventory and source-status snapshot are preserved in [provenance/20261104/](provenance/20261104/).
+
 ## Runtime adaptation
 
 The released implementation uses TensorFlow 1.x graph APIs. The experiment code uses `tf.compat.v1` for graph-mode variables and layers, and `tf_slim` for the former `tensorflow.contrib.framework` argument-scope helpers. The RAW inference entry point disables eager execution. The repository does not pin a complete TensorFlow, OpenCV, CUDA, or Metavision SDK environment, so record the environment used for any new result separately.

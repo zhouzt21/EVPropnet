@@ -1,0 +1,33 @@
+EVPropNet source snapshot
+Captured: 2026-11-04 (Asia/Shanghai)
+Git branch: main
+Git HEAD: 50eeb7e
+Selected working-tree files include local modifications and untracked source files.
+The .git directory/history is omitted. Deleted bytecode and cache files are omitted.
+
+git status --short at packaging time:
+ M Code/Misc/Decorators.py
+ M Code/Misc/ImageUtils.py
+ D Code/Misc/__init__.pyc
+ D Code/Misc/__pycache__/ImageUtils.cpython-36.pyc
+ D Code/Misc/__pycache__/__init__.cpython-36.pyc
+ M Code/Network/BaseLayers.py
+ M Code/Network/ResNet.py
+ M Code/Network/ResNetSmall.py
+ M Code/Network/VanillaNet.py
+ M Code/Network/VanillaNetSmall.py
+ M Code/Test.py
+ M Code/Test1.py
+?? Code/EvaluateM30TBBox.py
+?? Code/TrainM30TBBox.py
+?? Code/bad_pixel_filter.py
+?? Code/response_postprocess.py
+?? Code/run_raw_100ms_test.sh
+?? Code/run_raw_50ms_test.sh
+?? Code/run_raw_50ms_test_near.sh
+?? Code/test_bad_pixel_filter.py
+?? Code/test_event_visualization_order.py
+?? Code/test_raw_ckpt.py
+?? Code/test_response_postprocess.py
+?? Code/visualize_raw_bboxes.py
+?? Code/visualize_raw_response_heatmaps.py
