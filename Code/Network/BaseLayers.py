@@ -5,8 +5,8 @@ import sys
 import numpy as np
 import inspect
 from functools import wraps
-from tensorflow.contrib.framework import add_arg_scope
-from tensorflow.contrib.framework import arg_scope
+from tf_slim import add_arg_scope
+from tf_slim import arg_scope
 import Misc.TFUtils as tu
 from Misc.Decorators import *
 
@@ -39,21 +39,21 @@ class BaseLayers(object):
     @CountAndScope
     @add_arg_scope
     def Conv(self, inputs = None, filters = None, kernel_size = None, strides = None, padding = None, activation=None, name=None):
-        Output = tf.layers.conv2d(inputs = inputs, filters = filters, kernel_size = kernel_size, \
+        Output = tf.compat.v1.layers.conv2d(inputs = inputs, filters = filters, kernel_size = kernel_size, \
                                   strides = strides, padding = padding, activation=activation, name=name) # kernel_constraint=tf.keras.constraints.UnitNorm(axis=0), #  kernel_initializer=tf.contrib.layers.variance_scaling_initializer(),
         return Output
 
     @CountAndScope
     @add_arg_scope
     def ConvTranspose(self, inputs = None, filters = None, kernel_size = None, strides = None, padding = None, activation=None, name=None):
-        Output = tf.layers.conv2d_transpose(inputs = inputs, filters = filters, kernel_size = kernel_size, \
+        Output = tf.compat.v1.layers.conv2d_transpose(inputs = inputs, filters = filters, kernel_size = kernel_size, \
                                   strides = strides, padding = padding, activation=activation, name=name) # kernel_constraint=tf.keras.constraints.UnitNorm(axis=0), #  kernel_initializer=tf.contrib.layers.variance_scaling_initializer(),
         return Output
 
     @CountAndScope
     @add_arg_scope
     def BN(self, inputs = None):
-        Output = tf.layers.batch_normalization(inputs = inputs) 
+        Output = tf.compat.v1.layers.batch_normalization(inputs = inputs) 
         return Output
     
     @CountAndScope
@@ -82,11 +82,11 @@ class BaseLayers(object):
     def Dropout(self, inputs = None, rate = None):
         if(rate is None):
             rate = 0.5
-        Output = tf.layers.dropout(inputs, rate=rate)
+        Output = tf.compat.v1.layers.dropout(inputs, rate=rate)
         return Output
 
     @CountAndScope
     @add_arg_scope
     def Dense(self, inputs = None, filters = None, activation=None, name=None):
-        Output = tf.layers.dense(inputs, units = filters, activation=activation, name=name) # kernel_constraint=tf.keras.constraints.UnitNorm(axis=0),
+        Output = tf.compat.v1.layers.dense(inputs, units = filters, activation=activation, name=name) # kernel_constraint=tf.keras.constraints.UnitNorm(axis=0),
         return Output

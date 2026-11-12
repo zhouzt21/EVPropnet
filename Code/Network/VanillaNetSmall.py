@@ -7,8 +7,8 @@ import sys
 import numpy as np
 import inspect
 from functools import wraps
-from tensorflow.contrib.framework import add_arg_scope
-from tensorflow.contrib.framework import arg_scope
+from tf_slim import add_arg_scope
+from tf_slim import arg_scope
 import Misc.TFUtils as tu
 from Misc.Decorators import *
 from Network.BaseLayers import *
@@ -88,7 +88,7 @@ class VanillaNet(BaseLayers):
         with arg_scope(self._arg_scope()):
             OutNow = self.InputPH
             for count in range(self.NumBlocks):
-                with tf.variable_scope('EncoderDecoderBlock' + str(count) + self.Suffix):
+                with tf.compat.v1.variable_scope('EncoderDecoderBlock' + str(count) + self.Suffix):
                     OutNow = self.VanillaNetBlock(OutNow) 
 
                     # Update counter used for looping over warpType

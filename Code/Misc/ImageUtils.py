@@ -16,9 +16,54 @@ def PolImgDisp(ImgPol):
     ImgPol = np.add(np.divide(np.multiply(ImgPol - np.amin(ImgPol), 255. - 0.), np.amax(ImgPol) - np.amin(ImgPol)), 0.).astype(np.uint8)
     return ImgPol
 
+def PropheseePolImgDisp(ImgPol, bg_color=(55, 36, 28), pos_color=(255, 255, 255), neg_color=(255, 160, 80)):
+    """
+    Prophesee-style visualization for polarity images.
+    ImgPol can be in {-1,0,1} or {0,127,255} range.
+    Colors are in BGR order for OpenCV.
+    """
+    ImgPol = np.squeeze(ImgPol)
+    if ImgPol.ndim != 2:
+        ImgPol = ImgPol[:, :, 0]
+
+    if (ImgPol.min() < 0) or (ImgPol.max() <= 1):
+        pos_mask = ImgPol > 0
+        neg_mask = ImgPol < 0
+    else:
+        pos_mask = ImgPol > 127
+        neg_mask = ImgPol < 127
+
+    img = np.zeros((ImgPol.shape[0], ImgPol.shape[1], 3), dtype=np.uint8)
+    img[:] = bg_color
+
+    if np.any(pos_mask):
+        img[pos_mask] = pos_color
+    if np.any(neg_mask):
+        img[neg_mask] = neg_color
+
+    return img
+
+def PropheseeEventsDisp(events, width=304, height=240,
+                        bg_color=(55, 36, 28),
+                        pos_color=(255, 255, 255),
+                        neg_color=(255, 160, 80)):
+    """
+    Prophesee-style visualization for event streams.
+    Colors are in BGR order for OpenCV.
+    """
+    img = np.zeros((height, width, 3), dtype=np.uint8)
+    img[:] = bg_color
+
+    if events.size:
+        colors = np.empty((events.size, 3), dtype=np.uint8)
+        colors[events['p'] > 0] = pos_color
+        colors[events['p'] <= 0] = neg_color
+        img[events['y'], events['x']] = colors
+
+    return img
+
 def OverlayCornersOnImg(Img, CornerLabelGaussian, Color=[255,0,0]):
     Img = Img.astype(np.float)
-    # Img has to be grayscale
     Corners = np.clip(CornerLabelGaussian.astype(np.float), 0, 255)/255.
     OverlayR = Corners*Color[0]
     OverlayG = Corners*Color[1]
@@ -29,8 +74,8 @@ def OverlayCornersOnImg(Img, CornerLabelGaussian, Color=[255,0,0]):
     if(len(np.shape(Img))<3):
         Img = np.tile(Img[:,:,np.newaxis], (1,1,3))
     elif(len(np.shape(Img))==3):
-        # if(np.shape(Img)[2]!=3):
-        Img = np.tile(Img[:,:,0], (1,1,3))
+        if(np.shape(Img)[2] != 3):
+            Img = np.tile(Img[:,:,0], (1,1,3))
 
     Thld = 0.02
     ImgR = Img[:,:,0]

@@ -5,8 +5,8 @@ import sys
 import numpy as np
 import inspect
 from functools import wraps
-from tensorflow.contrib.framework import add_arg_scope
-from tensorflow.contrib.framework import arg_scope
+from tf_slim import add_arg_scope
+from tf_slim import arg_scope
 
 # Don't generate pyc codes
 sys.dont_write_bytecode = True
@@ -21,7 +21,7 @@ def Count(func):
 def CountAndScope(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
-        with tf.variable_scope(func.__name__ + str(self.CurrBlock) + str(self.Suffix)):
+        with tf.compat.v1.variable_scope(func.__name__ + str(self.CurrBlock) + str(self.Suffix)):
             self.CurrBlock += 1
             return func(self, *args, **kwargs)
     return wrapped
@@ -29,7 +29,7 @@ def CountAndScope(func):
 def Scope(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
-        with tf.variable_scope(func.__name__):
+        with tf.compat.v1.variable_scope(func.__name__):
             return func(self, *args, **kwargs)
     return wrapped
     

@@ -129,9 +129,12 @@ def TestOperation(InputPH, Args):
             MeanErrorPx = np.mean(Error)
             Logs.write(Args.Input + ','  '{}'.format(MeanErrorPx))
             
-            IDisp = np.squeeze(iu.PolImgDisp(IBatch[0]))
+            if Args.VisStyle == 'classic':
+                IDisp = np.squeeze(iu.PolImgDisp(IBatch[0]))
+                IDisp = np.tile(IDisp[:, :, np.newaxis], (1, 1, 3))
+            else:
+                IDisp = iu.PropheseePolImgDisp(IBatch[0])
             Overlay = iu.OverlayCornersOnImg(IDisp, B)
-            IDisp = np.tile(IDisp[:,:,np.newaxis], (1,1,3))
  
             if(Args.Vis):
                 print('Mean Square Error: {}'.format(MeanErrorPx))
@@ -174,6 +177,8 @@ def main():
     Parser.add_argument('--WritePath', default='/media/nitin/Education/DVSProp/Outputs/', help='Path to save results, Default: /media/nitin/Education/DVSProp/Outputs/')
     Parser.add_argument('--Vis', type=int, default=0, help='0 for disabling and 1 for enabling viusalization of outputs, Default: 0')
     Parser.add_argument('--ImgSize', default='[480,480,1]', help='Image Size as a list (do not use spaces), Default: [480,480,1]')
+    Parser.add_argument('--VisStyle', default='prophesee', choices=['prophesee', 'classic'],
+                        help='Visualization style: prophesee or classic')
     
 
     Args = Parser.parse_args()
